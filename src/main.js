@@ -8,9 +8,9 @@ const tripControls = document.querySelector(`.trip-main__trip-controls`);
 const tripEvents = document.querySelector(`.trip-events`);
 const tripControlsFirstHeader = tripControls.querySelector(` h2:first-child`);
 const tripControlsSecondHeader = tripControls.querySelector(` h2:nth-child(2)`);
-const insertMarkup = (markupContainer, markup, position, markupReplay = 1) => {
-  if (markupReplay > 1) {
-    new Array(markupReplay).fill(markup).forEach(() =>
+const insertMarkup = (markupContainer, markup, position, MARCKUP_REPLAY = 1) => {
+  if (MARCKUP_REPLAY > 1) {
+    new Array(MARCKUP_REPLAY).fill(markup).forEach(() =>
       markupContainer.insertAdjacentHTML(position, markup));
   } else {
     markupContainer.insertAdjacentHTML(position, markup);
