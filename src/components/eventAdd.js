@@ -1,4 +1,4 @@
-import {additionalOptionsArray} from './data.js';
+import {additionalOptionsElementary} from './data.js';
 export const getComponentEventAdd = ({
   photos,
   type,
@@ -115,7 +115,7 @@ export const getComponentEventAdd = ({
          <section class="event__section  event__section--offers">
             <h3 class="event__section-title  event__section-title--offers">Offers</h3>
             <div class="event__available-offers">
-               ${additionalOptionsArray.map((option) =>`
+               ${additionalOptionsElementary.map((option) =>`
                <div class="event__offer-selector">
                   <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-${additionalOptions.indexOf(option)}" type="checkbox" name="event-offer-luggage" ${option.isTrue ? `checked=" "` : `` }>
                   <label class="event__offer-label" for="event-offer-luggage-${additionalOptions.indexOf(option)}">

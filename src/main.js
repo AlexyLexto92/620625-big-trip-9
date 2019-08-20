@@ -4,7 +4,7 @@ import {getComponentsTripInfo} from './components/trip-info';
 import {getComponentFilter} from './components/filter.js';
 import {getComponentSort} from './components/sort.js';
 import {getComponentTripDays} from './components/trip-days.js';
-import {menues} from './components/data.js';
+import {menu} from './components/data.js';
 import {getComponentEventDay} from './components/event-day';
 import {getComponentEventAdd} from './components/eventAdd.js';
 import {getComponentEventInfo} from './components/eventInfo.js';
@@ -28,10 +28,10 @@ const insertMarkup = (markupContainer, markup, position, MARCKUP_REPLAY = 1) => 
 
 insertMarkup(tripControlsFirstHeader, getComponentMenu(), `afterEnd`);
 const tripInfoBlock = document.querySelector(`.trip-main__trip-info`);
-insertMarkup(tripInfoBlock, getComponentsTripInfo(menues), `afterBegin`);
+insertMarkup(tripInfoBlock, getComponentsTripInfo(menu), `afterBegin`);
 const tripCoast = document.querySelector(`.trip-info__cost`);
 tripCoast.remove();
-insertMarkup(tripInfoBlock, getComponetTripCoast(menues), `beforeEnd`);
+insertMarkup(tripInfoBlock, getComponetTripCoast(menu), `beforeEnd`);
 
 insertMarkup(tripControlsSecondHeader, getComponentFilter(), `afterEnd`);
 

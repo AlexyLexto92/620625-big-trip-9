@@ -4,21 +4,29 @@ import {arraySum} from './utils.js';
 
 const NUMBER_OF_REPETITIONS = 4;
 const NUMBER_OF_PHOTOS = 16;
-const additionalOptionsStart = 0;
-const additionalOptionsCount = 2;
-const photosStart = 0;
-const photosCount = 4;
-const descriptionStart = 0;
-const descriptionCount = 3;
-const minCoast = 20;
-const maxCoast = 600;
+const additionalOptionsOption = {
+  start: 0,
+  count: 2,
+};
+const photosOption = {
+  start: 0,
+  count: 4,
+};
+const descriptionOption = {
+  start: 0,
+  count: 3,
+};
+const coastOption = {
+  min: 20,
+  max: 600,
+};
 
 const getCoast = () => {
-  let rand = minCoast + Math.random() * (maxCoast + 1 - minCoast);
+  let rand = coastOption.min + Math.random() * (coastOption.max + 1 - coastOption.min);
   return Math.floor(rand);
 };
 
-const descriptionArray = [
+const descriptionElementary = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget.`,
   `Fusce tristique felis at fermentum pharetra.`,
   `Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.`,
@@ -26,8 +34,8 @@ const descriptionArray = [
   `Sed sed nisi sed augue convallis suscipit in sed felis.`,
   `Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus`
 ];
-export const citiesArray = [`Warsaw`, `Dnipro`, `Dresden`, `Berlin`];
-const typeArray = [{
+export const citiesElementary = [`Warsaw`, `Dnipro`, `Dresden`, `Berlin`];
+const typesElementary = [{
   title: `bus`,
   src: `img/icons/bus.png`,
   description: `Bus to`
@@ -78,7 +86,7 @@ const typeArray = [{
   description: `Drive on`
 }
 ];
-export const additionalOptionsArray = [{
+export const additionalOptionsElementary = [{
   title: `Add luggage`,
   coast: 10,
   isTrue: Boolean(randomInteger(0, 1)),
@@ -102,26 +110,26 @@ export const additionalOptionsArray = [{
 
 const coasts = new Array(NUMBER_OF_REPETITIONS).fill(getCoast()).map(getCoast);
 
-const getPhotos = () => (`
+const getPhoto = () => (`
 http://picsum.photos/300/150?r=${Math.random()}
 `);
-const photosArray = new Array(NUMBER_OF_PHOTOS).fill(getPhotos()).map(getPhotos);
+const photosGenerated = new Array(NUMBER_OF_PHOTOS).fill(getPhoto()).map(getPhoto);
 
 export const getDataTrip = () => ({
-  type: typeArray[[Math.floor(Math.random() * typeArray.length)]],
-  cities: citiesArray,
-  photos: arrRandom(photosArray, photosStart, photosArray.length, photosCount),
-  description: arrRandom(descriptionArray, descriptionStart, descriptionArray.length, descriptionCount),
+  type: typesElementary[[Math.floor(Math.random() * typesElementary.length)]],
+  cities: citiesElementary,
+  photos: arrRandom(photosGenerated, photosOption.start, photosGenerated.length, photosOption.count),
+  description: arrRandom(descriptionElementary, descriptionOption.start, descriptionElementary.length, descriptionOption.count),
   dueDate: Date.now() + 1 + Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000,
   cost: coasts[Math.floor(Math.random() * coasts.length)],
   isFavorite: Boolean(randomInteger(0, 1)),
-  additionalOptions: arrRandom(additionalOptionsArray, additionalOptionsStart, additionalOptionsArray.length, additionalOptionsCount),
+  additionalOptions: arrRandom(additionalOptionsElementary, additionalOptionsOption.start, additionalOptionsElementary.length, additionalOptionsOption.count),
 });
 
 export let dataTrip = new Array(NUMBER_OF_REPETITIONS).fill(getDataTrip()).map(getDataTrip);
 
-export const menues = {
-  cities: citiesArray,
+export const menu = {
+  cities: citiesElementary,
   get totalCoast() {
     return arraySum(coasts);
   },
