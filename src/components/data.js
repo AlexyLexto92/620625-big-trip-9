@@ -21,11 +21,6 @@ const coastOption = {
   max: 600,
 };
 
-const getCoast = () => {
-  let rand = coastOption.min + Math.random() * (coastOption.max + 1 - coastOption.min);
-  return Math.floor(rand);
-};
-
 const descriptionElementary = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget.`,
   `Fusce tristique felis at fermentum pharetra.`,
@@ -108,7 +103,9 @@ export const additionalOptionsElementary = [{
 },
 ];
 
-const coasts = new Array(NUMBER_OF_REPETITIONS).fill(getCoast()).map(getCoast);
+const coasts = new Array(NUMBER_OF_REPETITIONS)
+.fill(randomInteger(coastOption.min, coastOption.max))
+.map(() => randomInteger(coastOption.min, coastOption.max));
 
 const getPhoto = () => (`
 http://picsum.photos/300/150?r=${Math.random()}
@@ -126,7 +123,7 @@ export const getDataTrip = () => ({
   additionalOptions: arrRandom(additionalOptionsElementary, additionalOptionsOption.start, additionalOptionsElementary.length, additionalOptionsOption.count),
 });
 
-export let dataTrip = new Array(NUMBER_OF_REPETITIONS).fill(getDataTrip()).map(getDataTrip);
+export const dataTrip = new Array(NUMBER_OF_REPETITIONS).fill(getDataTrip()).map(getDataTrip);
 
 export const menu = {
   cities: citiesElementary,

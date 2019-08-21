@@ -1,10 +1,8 @@
-export const randomInteger = (min, max) => {
-  let rand = min + Math.random() * (max + 1 - min);
-  return Math.floor(rand);
-};
-export const arrRandom = (tagArr, tagsStart, tagsEnd, tagsCounts) => {
+export const randomInteger = (min, max) => Math.round(min + Math.random() * (max + 1 - min));
+
+export const arrRandom = (tags, tagsStart, tagsEnd, tagsCounts) => {
   const startCount = randomInteger(tagsStart, tagsEnd);
-  const tagsNewArray = tagArr.slice(startCount, startCount + tagsCounts);
+  const tagsNewArray = tags.slice(startCount, startCount + tagsCounts);
   return tagsNewArray;
 };
 export const arraySum = (array) => {
