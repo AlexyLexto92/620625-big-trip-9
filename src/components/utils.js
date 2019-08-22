@@ -1,11 +1,11 @@
-export const randomInteger = (min, max) => Math.round(min + Math.random() * (max + 1 - min));
+export const getRandomInteger = (min, max) => Math.round(min + Math.random() * (max + 1 - min));
 
-export const arrRandom = (tags, tagsStart, tagsEnd, tagsCounts) => {
-  const startCount = randomInteger(tagsStart, tagsEnd);
+export const getArrRandom = (tags, tagsStart, tagsEnd, tagsCounts) => {
+  const startCount = getRandomInteger(tagsStart, tagsEnd);
   const tagsNewArray = tags.slice(startCount, startCount + tagsCounts);
   return tagsNewArray;
 };
-export const arraySum = (array) => {
+export const getArraySum = (array) => {
   let sum = 0;
   for (let i = 0; i < array.length; i++) {
     sum += array[i];

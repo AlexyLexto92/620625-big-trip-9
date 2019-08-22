@@ -1,6 +1,6 @@
-import {randomInteger} from './utils.js';
-import {arrRandom} from './utils.js';
-import {arraySum} from './utils.js';
+import {getRandomInteger} from './utils.js';
+import {getArrRandom} from './utils.js';
+import {getArraySum} from './utils.js';
 
 const NUMBER_OF_REPETITIONS = 4;
 const NUMBER_OF_PHOTOS = 16;
@@ -84,28 +84,28 @@ const typesElementary = [{
 export const additionalOptionsElementary = [{
   title: `Add luggage`,
   coast: 10,
-  isTrue: Boolean(randomInteger(0, 1)),
+  isTrue: Boolean(getRandomInteger(0, 1)),
 },
 {
   title: `Switch to comfort class`,
   coast: 150,
-  isTrue: Boolean(randomInteger(0, 1)),
+  isTrue: Boolean(getRandomInteger(0, 1)),
 },
 {
   title: `Add meal`,
   coast: 2,
-  isTrue: Boolean(randomInteger(0, 1)),
+  isTrue: Boolean(getRandomInteger(0, 1)),
 },
 {
   title: `Choose seats`,
   coast: 9,
-  isTrue: Boolean(randomInteger(0, 1)),
+  isTrue: Boolean(getRandomInteger(0, 1)),
 },
 ];
 
 const coasts = new Array(NUMBER_OF_REPETITIONS)
-.fill(randomInteger(coastOption.min, coastOption.max))
-.map(() => randomInteger(coastOption.min, coastOption.max));
+.fill(getRandomInteger(coastOption.min, coastOption.max))
+.map(() => getRandomInteger(coastOption.min, coastOption.max));
 
 const getPhoto = () => (`
 http://picsum.photos/300/150?r=${Math.random()}
@@ -115,12 +115,12 @@ const photosGenerated = new Array(NUMBER_OF_PHOTOS).fill(getPhoto()).map(getPhot
 export const getDataTrip = () => ({
   type: typesElementary[[Math.floor(Math.random() * typesElementary.length)]],
   cities: citiesElementary,
-  photos: arrRandom(photosGenerated, photosOption.start, photosGenerated.length, photosOption.count),
-  description: arrRandom(descriptionElementary, descriptionOption.start, descriptionElementary.length, descriptionOption.count),
+  photos: getArrRandom(photosGenerated, photosOption.start, photosGenerated.length, photosOption.count),
+  description: getArrRandom(descriptionElementary, descriptionOption.start, descriptionElementary.length, descriptionOption.count),
   dueDate: Date.now() + 1 + Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000,
   cost: coasts[Math.floor(Math.random() * coasts.length)],
-  isFavorite: Boolean(randomInteger(0, 1)),
-  additionalOptions: arrRandom(additionalOptionsElementary, additionalOptionsOption.start, additionalOptionsElementary.length, additionalOptionsOption.count),
+  isFavorite: Boolean(getRandomInteger(0, 1)),
+  additionalOptions: getArrRandom(additionalOptionsElementary, additionalOptionsOption.start, additionalOptionsElementary.length, additionalOptionsOption.count),
 });
 
 export const dataTrip = new Array(NUMBER_OF_REPETITIONS).fill(getDataTrip()).map(getDataTrip);
@@ -128,7 +128,7 @@ export const dataTrip = new Array(NUMBER_OF_REPETITIONS).fill(getDataTrip()).map
 export const menu = {
   cities: citiesElementary,
   get totalCoast() {
-    return arraySum(coasts);
+    return getArraySum(coasts);
   },
   dateStart: new Date(dataTrip[0].dueDate),
   dateEnd: new Date(dataTrip[0].dueDate)
