@@ -81,7 +81,7 @@ const typesElementary = [{
   description: `Drive on`
 }
 ];
-export const additionalOptionsElementary = [{
+export const optionsAll = [{
   title: `Add luggage`,
   coast: 10,
   isTrue: Boolean(getRandomInteger(0, 1)),
@@ -120,10 +120,12 @@ export const getDataTrip = () => ({
   dueDate: Date.now() + 1 + Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000,
   cost: coasts[Math.floor(Math.random() * coasts.length)],
   isFavorite: Boolean(getRandomInteger(0, 1)),
-  additionalOptions: getArrRandom(additionalOptionsElementary, additionalOptionsOption.start, additionalOptionsElementary.length, additionalOptionsOption.count),
+  additionalOptions: getArrRandom(optionsAll, additionalOptionsOption.start, optionsAll.length, additionalOptionsOption.count),
+  allOptions: optionsAll
 });
 
 export const dataTrip = new Array(NUMBER_OF_REPETITIONS).fill(getDataTrip()).map(getDataTrip);
+
 
 export const menu = {
   cities: citiesElementary,

@@ -6,15 +6,13 @@ import {getComponentSort} from './components/sort.js';
 import {getComponentTripDays} from './components/trip-days.js';
 import {menu} from './components/data.js';
 import {getComponentEventDay} from './components/event-day';
-import {getComponentEventAdd} from './components/eventAdd.js';
-import {getComponentEventInfo} from './components/eventInfo.js';
+import {CardAdd} from './components/eventAdd.js';
+import {Card} from './components/eventInfo.js';
 import {dataTrip} from './components/data.js';
+import {render, Position} from './components/utils.js';
 
 const tripControls = document.querySelector(`.trip-main__trip-controls`);
 const tripEvents = document.querySelector(`.trip-events`);
-const dataTripsStart = 1;
-const dataTripsCount = 3;
-const dataTripsEnd = dataTripsStart + dataTripsCount;
 const tripControlsFirstHeader = tripControls.querySelector(` h2:first-child`);
 const tripControlsSecondHeader = tripControls.querySelector(` h2:nth-child(2)`);
 const insertMarkup = (markupContainer, markup, position, MARCKUP_REPLAY = 1) => {
@@ -25,6 +23,46 @@ const insertMarkup = (markupContainer, markup, position, MARCKUP_REPLAY = 1) => 
     markupContainer.insertAdjacentHTML(position, markup);
   }
 };
+
+const renderCard = (data) => {
+
+  const card = new Card(data);
+  const cardEdit = new CardAdd(data);
+
+  const onEscKeyDown = (evt) => {
+    if (evt.key === `Escape` || evt.key === `Esc`) {
+      tripEventsList.replaceChild(card.getElement(), cardEdit.getElement());
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
+  };
+  card.getElement().querySelector(`.event__rollup-btn`)
+    .addEventListener(`click`, () => {
+      tripEventsList.replaceChild(cardEdit.getElement(), card.getElement());
+      document.addEventListener(`keydown`, onEscKeyDown);
+    });
+  cardEdit.getElement().querySelector(`.event__rollup-btn`)
+    .addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+      tripEventsList.replaceChild(card.getElement(), cardEdit.getElement());
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    });
+
+  cardEdit.getElement().querySelector(`.event__save-btn`)
+    .addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+      tripEventsList.replaceChild(card.getElement(), cardEdit.getElement());
+      document.removeEventListener(`keydown`, onEscKeyDown);
+
+    });
+  cardEdit.getElement().querySelector(`.event__reset-btn`).addEventListener(`click`, () => {
+    cardEdit.removeElement();
+    card.removeElement();
+    document.removeEventListener(`keydown`, onEscKeyDown);
+  });
+
+  render(tripEventsList, card.getElement(), Position.BEFOREEND);
+};
+
 
 insertMarkup(tripControlsFirstHeader, getComponentMenu(), `afterEnd`);
 const tripInfoBlock = document.querySelector(`.trip-main__trip-info`);
@@ -45,8 +83,4 @@ insertMarkup(tripDays, getComponentEventDay(dataTrip[0]), `beforeEnd`);
 
 const tripEventsList = document.querySelector(`.trip-events__list`);
 
-insertMarkup(tripEventsList, getComponentEventAdd(dataTrip[0]), `afterBegin`);
-const dataTrips = dataTrip.slice(dataTripsStart, dataTripsEnd);
-for (let elem of dataTrips) {
-  insertMarkup(tripEventsList, getComponentEventInfo(elem), `beforeEnd`);
-}
+dataTrip.forEach((data) => renderCard(data));
