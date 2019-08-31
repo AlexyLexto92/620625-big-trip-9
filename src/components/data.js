@@ -126,7 +126,6 @@ export const getDataTrip = () => ({
 
 export const dataTrip = new Array(NUMBER_OF_REPETITIONS).fill(getDataTrip()).map(getDataTrip);
 
-
 export const menu = {
   cities: citiesElementary,
   get totalCoast() {
@@ -146,3 +145,4 @@ export const filters = [{
   title: `Past`,
 }
 ];
+
