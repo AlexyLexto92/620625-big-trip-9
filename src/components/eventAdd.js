@@ -1,21 +1,36 @@
-import {additionalOptionsElementary} from './data.js';
-export const getComponentEventAdd = ({
-  photos,
-  type,
-  dueDate,
-  cost,
-  isFavorite,
-  additionalOptions,
-  description,
-  cities
-}) => (`
-<li class="trip-events__item">
+import {createElement, unrender} from './utils.js';
+export class CardAdd {
+  constructor({photos, type, dueDate, cost, isFavorite, additionalOptions, description, cities, allOptions}) {
+    this._photos = photos;
+    this._type = type;
+    this._dueDate = new Date(dueDate);
+    this._cost = cost;
+    this._isFavorite = isFavorite;
+    this._additionalOptions = additionalOptions;
+    this._description = description;
+    this._cities = cities;
+    this._allOptions = allOptions;
+  }
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  removeElement() {
+    unrender(this._element);
+    this._element = null;
+  }
+
+  getTemplate() {
+    return `<li class="trip-events__item">
    <form class="event  event--edit" action="#" method="post">
       <header class="event__header">
          <div class="event__type-wrapper">
             <label class="event__type  event__type-btn" for="event-type-toggle-1">
             <span class="visually-hidden">Choose event type</span>
-            <img class="event__type-icon" width="17" height="17" src=${type.src} alt=${type.title}>
+            <img class="event__type-icon" width="17" height="17" src=${this._type.src} alt=${this._type.title}>
             </label>
             <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
             <div class="event__type-list">
@@ -69,11 +84,11 @@ export const getComponentEventAdd = ({
          </div>
          <div class="event__field-group  event__field-group--destination">
             <label class="event__label  event__type-output" for="event-destination-1">
-            ${type.description}
+            ${this._type.description}
             </label>
-            <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value=${cities[0]} list="destination-list-1">
+            <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value=${this._cities[0]} list="destination-list-1">
             <datalist id="destination-list-1">
-               ${cities.map((city)=>`
+               ${this._cities.map((city) => `
                <option value=${city}></option>
                `).join(` `)}
             </datalist>
@@ -84,23 +99,24 @@ export const getComponentEventAdd = ({
             </label>
             <input class="event__input  event__input--time"
                id="event-start-time-1" type="text" name="event-start-time"
-               value="${new Date(dueDate).getDate()}/${new Date(dueDate).getMonth()}/${new Date(dueDate).getFullYear()} ${new Date(dueDate).getHours()}:${new Date(dueDate).getMinutes()}">
+               value="${new Date(this._dueDate).getDate()}/${new Date(this._dueDate).getMonth()}/${new Date(this._dueDate).getFullYear()} ${new Date(this._dueDate).getHours()}:${new Date(this._dueDate).getMinutes()}">
             —
             <label class="visually-hidden" for="event-end-time-1">
             To
             </label>
-            <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${new Date(dueDate).getDate()}/${new Date(dueDate).getMonth()}/${new Date(dueDate).getFullYear()} ${new Date(dueDate).getHours()}:${new Date(dueDate).getMinutes()}">
+            <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time"
+            value="${new Date(this._dueDate).getDate()}/${new Date(this._dueDate).getMonth()}/${new Date(this._dueDate).getFullYear()} ${new Date(this._dueDate).getHours()}:${new Date(this._dueDate).getMinutes()}">
          </div>
          <div class="event__field-group  event__field-group--price">
             <label class="event__label" for="event-price-1">
             <span class="visually-hidden">Price</span>
             €
             </label>
-            <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value=${cost}>
+            <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value=${this._cost}>
          </div>
          <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
          <button class="event__reset-btn" type="reset">Delete</button>
-         <input id="event-favorite-1" class="event__favorite-checkbox  visually-hidden" type="checkbox" name="event-favorite" ${isFavorite ? `checked=""` : `" "`}>
+         <input id="event-favorite-1" class="event__favorite-checkbox  visually-hidden" type="checkbox" name="event-favorite" ${this._isFavorite ? `checked=""` : `" "`}>
          <label class="event__favorite-btn" for="event-favorite-1">
             <span class="visually-hidden">Add to favorite</span>
             <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
@@ -115,10 +131,16 @@ export const getComponentEventAdd = ({
          <section class="event__section  event__section--offers">
             <h3 class="event__section-title  event__section-title--offers">Offers</h3>
             <div class="event__available-offers">
-               ${additionalOptionsElementary.map((option) =>`
+               ${this._allOptions.map((option) => `
                <div class="event__offer-selector">
-                  <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-${additionalOptions.indexOf(option)}" type="checkbox" name="event-offer-luggage" ${option.isTrue ? `checked=" "` : `` }>
-                  <label class="event__offer-label" for="event-offer-luggage-${additionalOptions.indexOf(option)}">
+                  <input class="event__offer-checkbox  visually-hidden"
+
+                   id="event-offer-luggage-${this._allOptions.indexOf(option)}"
+
+                    type="checkbox" name="event-offer-luggage" ${this._additionalOptions.includes(option) && option.isTrue ? `checked=" "` : ``}>
+
+                  <label class="event__offer-label" for="event-offer-luggage-${this._allOptions.indexOf(option)}">
+
                   <span class="event__offer-title">${option.title}</span>
                   +
                   €&nbsp;<span class="event__offer-price">${option.coast}</span>
@@ -129,10 +151,10 @@ export const getComponentEventAdd = ({
          </section>
          <section class="event__section  event__section--destination">
             <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-            <p class="event__destination-description">${description}</p>
+            <p class="event__destination-description">${this._description}</p>
             <div class="event__photos-container">
                <div class="event__photos-tape">
-                  ${photos.map((photo) => `
+                  ${this._photos.map((photo) => `
                   <img class="event__photo" src=${photo} alt="Event photo">
                   `).join(` `)}
                </div>
@@ -140,5 +162,6 @@ export const getComponentEventAdd = ({
          </section>
       </section>
    </form>
-</li>
-`);
+</li>`;
+  }
+}
