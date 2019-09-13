@@ -1,22 +1,13 @@
-import {createElement, unrender} from './utils.js';
-export class Card {
+import {AbstractComponent} from './abstractClass.js';
+export class Card extends AbstractComponent {
   constructor({type, cost, dueDate, additionalOptions}) {
+    super();
     this._type = type;
     this._cost = cost;
     this._dueDate = dueDate;
     this._additionalOptions = additionalOptions;
   }
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
 
-  removeElement() {
-    unrender(this._element);
-    this._element = null;
-  }
   getTemplate() {
     return `<li class="trip-events__item">
       <div class="event">

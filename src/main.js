@@ -6,11 +6,8 @@ import {getComponentSort} from './components/sort.js';
 import {getComponentTripDays} from './components/trip-days.js';
 import {menu} from './components/data.js';
 import {getComponentEventDay} from './components/event-day';
-import {CardAdd} from './components/eventAdd.js';
-import {Card} from './components/eventInfo.js';
 import {dataTrip} from './components/data.js';
-import {render, Position} from './components/utils.js';
-import {getNoEvents} from './components/noEvents.js';
+import {TripController} from './controllers/TripController.js';
 
 const tripControls = document.querySelector(`.trip-main__trip-controls`);
 const tripEvents = document.querySelector(`.trip-events`);
@@ -38,55 +35,12 @@ insertMarkup(tripInfoBlock, getComponetTripCoast(menu), `beforeEnd`);
 
 insertMarkup(tripControlsSecondHeader, getComponentFilter(), `afterEnd`);
 
-if (dataEvent.length <= 0) {
-  insertMarkup(tripEvents, getNoEvents(), `beforeend`);
-} else {
-  const renderCard = (data) => {
+insertMarkup(tripEvents, getComponentSort(), `beforeEnd`);
+insertMarkup(tripEvents, getComponentTripDays(), `beforeEnd`);
 
-    const card = new Card(data);
-    const cardEdit = new CardAdd(data);
+const tripDays = document.querySelector(`.trip-days`);
+insertMarkup(tripDays, getComponentEventDay(dataEvent[0]), `beforeEnd`);
 
-    const onEscKeyDown = (evt) => {
-      if (evt.key === `Escape` || evt.key === `Esc`) {
-        tripEventsList.replaceChild(card.getElement(), cardEdit.getElement());
-        document.removeEventListener(`keydown`, onEscKeyDown);
-      }
-    };
-    card.getElement().querySelector(`.event__rollup-btn`)
-      .addEventListener(`click`, () => {
-        tripEventsList.replaceChild(cardEdit.getElement(), card.getElement());
-        document.addEventListener(`keydown`, onEscKeyDown);
-      });
-    cardEdit.getElement().querySelector(`.event__rollup-btn`)
-      .addEventListener(`click`, (evt) => {
-        evt.preventDefault();
-        tripEventsList.replaceChild(card.getElement(), cardEdit.getElement());
-        document.removeEventListener(`keydown`, onEscKeyDown);
-      });
-
-    cardEdit.getElement().querySelector(`.event__save-btn`)
-      .addEventListener(`click`, (evt) => {
-        evt.preventDefault();
-        tripEventsList.replaceChild(card.getElement(), cardEdit.getElement());
-        document.removeEventListener(`keydown`, onEscKeyDown);
-
-      });
-    cardEdit.getElement().querySelector(`.event__reset-btn`).addEventListener(`click`, () => {
-      cardEdit.removeElement();
-      card.removeElement();
-      document.removeEventListener(`keydown`, onEscKeyDown);
-    });
-
-    render(tripEventsList, card.getElement(), Position.BEFOREEND);
-  };
-
-  insertMarkup(tripEvents, getComponentSort(), `beforeEnd`);
-  insertMarkup(tripEvents, getComponentTripDays(), `beforeEnd`);
-
-  const tripDays = document.querySelector(`.trip-days`);
-  insertMarkup(tripDays, getComponentEventDay(dataEvent[0]), `beforeEnd`);
-
-  const tripEventsList = document.querySelector(`.trip-events__list`);
-  dataEvent.forEach((data) => renderCard(data));
-}
-
+const tripContainer = document.querySelector(`.trip-events__list`);
+const tripCotroller = new TripController(tripContainer, dataTrip);
+tripCotroller.init();
