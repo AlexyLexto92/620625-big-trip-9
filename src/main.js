@@ -2,15 +2,12 @@ import {getComponentMenu} from './components/menu.js';
 import {getComponetTripCoast} from './components/trip-coast';
 import {getComponentsTripInfo} from './components/trip-info';
 import {getComponentFilter} from './components/filter.js';
-import {getComponentSort} from './components/sort.js';
-import {getComponentTripDays} from './components/trip-days.js';
 import {menu} from './components/data.js';
-import {getComponentEventDay} from './components/event-day';
 import {dataTrip} from './components/data.js';
 import {TripController} from './controllers/TripController.js';
 
 const tripControls = document.querySelector(`.trip-main__trip-controls`);
-const tripEvents = document.querySelector(`.trip-events`);
+
 const tripControlsFirstHeader = tripControls.querySelector(` h2:first-child`);
 const tripControlsSecondHeader = tripControls.querySelector(` h2:nth-child(2)`);
 const insertMarkup = (markupContainer, markup, position, MARCKUP_REPLAY = 1) => {
@@ -35,12 +32,9 @@ insertMarkup(tripInfoBlock, getComponetTripCoast(menu), `beforeEnd`);
 
 insertMarkup(tripControlsSecondHeader, getComponentFilter(), `afterEnd`);
 
-insertMarkup(tripEvents, getComponentSort(), `beforeEnd`);
-insertMarkup(tripEvents, getComponentTripDays(), `beforeEnd`);
 
 const tripDays = document.querySelector(`.trip-days`);
-insertMarkup(tripDays, getComponentEventDay(dataEvent[0]), `beforeEnd`);
-
-const tripContainer = document.querySelector(`.trip-events__list`);
-const tripCotroller = new TripController(tripContainer, dataTrip);
+const tripEvents = document.querySelector(`.trip-events`);
+const tripList = document.querySelector(`.trip-events__list`);
+const tripCotroller = new TripController(tripList, dataTrip, tripEvents, tripDays);
 tripCotroller.init();
