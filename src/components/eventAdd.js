@@ -1,6 +1,7 @@
-import {createElement, unrender} from './utils.js';
-export class CardAdd {
+import {AbstractComponent} from './abstractClass.js';
+export class CardAdd extends AbstractComponent {
   constructor({photos, type, dueDate, cost, isFavorite, additionalOptions, description, cities, allOptions}) {
+    super();
     this._photos = photos;
     this._type = type;
     this._dueDate = new Date(dueDate);
@@ -11,18 +12,6 @@ export class CardAdd {
     this._cities = cities;
     this._allOptions = allOptions;
   }
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    unrender(this._element);
-    this._element = null;
-  }
-
   getTemplate() {
     return `<li class="trip-events__item">
    <form class="event  event--edit" action="#" method="post">
