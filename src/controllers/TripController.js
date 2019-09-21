@@ -1,11 +1,10 @@
 import {AbstractComponent} from "../components/abstractClass";
-import {render, Position} from '../components/utils.js';
-import {Card} from "../components/eventInfo";
-import {CardAdd} from "../components/eventAdd";
+import {render, Position, unrender} from '../components/utils.js';
 import {NoEvents} from "../components/noEvents";
 import {Sort} from "../components/sort";
 import {TripDays} from "../components/trip-days";
 import {EventDay} from "../components/event-day";
+import { PointController } from "./PointController";
 
 export class TripController extends AbstractComponent {
   constructor(cardsContainer, data, eventContainer, tripDaysContainer) {
@@ -18,6 +17,10 @@ export class TripController extends AbstractComponent {
     this._sort = new Sort();
     this._tripContainer = new TripDays();
     this._eventDay = new EventDay(data[0]);
+
+    this._subscriptions = [];
+		this._onChangeView = this._onChangeView.bind(this);
+    this._onDataChange = this._onDataChange.bind(this);
   }
   init() {
     render(this._eventContainer, this._sort.getElement(), Position.BEFOREEND);
@@ -28,44 +31,31 @@ export class TripController extends AbstractComponent {
     .addEventListener(`click`, (evt) => this._onSortLinkClick(evt));
     this._data.forEach((date) => this._renderCard(date));
   }
+  _renderBoard() {
+    debugger
+    unrender(this._tripContainer.getElement());
+    this._tripContainer.removeElement();
+    unrender(this._eventDay.getElement());
+    this._eventDay.removeElement();
+    render(this._eventContainer, this._tripContainer.getElement(), Position.BEFOREEND);
+    const tripContainerElem = document.querySelector(`.trip-days`);
+    render(tripContainerElem, this._eventDay.getElement(), Position.BEFOREEND);
 
+    this._data.forEach((date) => this._renderCard(date));
+
+  }
   _renderCard(data) {
     const cardsContainer = document.querySelector(`.trip-events__list`);
-    const card = new Card(data);
-    const cardEdit = new CardAdd(data);
+    const pointController = new PointController (cardsContainer, data, this._onDataChange, this._onChangeView);
+    this._subscriptions.push(pointController.setDefaultView.bind(pointController));
+  }
+  _onDataChange(newData, oldData) {
+    this._data[this._data.findIndex((it) => it === oldData)] = newData;
+    this._renderBoard(this._data);
+  }
 
-    const onEscKeyDown = (evt) => {
-      if (evt.key === `Escape` || evt.key === `Esc`) {
-        cardsContainer.replaceChild(card.getElement(), cardEdit.getElement());
-        document.removeEventListener(`keydown`, onEscKeyDown);
-      }
-    };
-    card.getElement().querySelector(`.event__rollup-btn`)
-      .addEventListener(`click`, () => {
-        cardsContainer.replaceChild(cardEdit.getElement(), card.getElement());
-        document.addEventListener(`keydown`, onEscKeyDown);
-      });
-    cardEdit.getElement().querySelector(`.event__rollup-btn`)
-      .addEventListener(`click`, (evt) => {
-        evt.preventDefault();
-        cardsContainer.replaceChild(card.getElement(), cardEdit.getElement());
-        document.removeEventListener(`keydown`, onEscKeyDown);
-      });
-
-    cardEdit.getElement().querySelector(`.event__save-btn`)
-      .addEventListener(`click`, (evt) => {
-        evt.preventDefault();
-        cardsContainer.replaceChild(card.getElement(), cardEdit.getElement());
-        document.removeEventListener(`keydown`, onEscKeyDown);
-
-      });
-    cardEdit.getElement().querySelector(`.event__reset-btn`).addEventListener(`click`, () => {
-      cardEdit.removeElement();
-      card.removeElement();
-      document.removeEventListener(`keydown`, onEscKeyDown);
-    });
-
-    render(cardsContainer, card.getElement(), Position.BEFOREEND);
+  _onChangeView() {
+		this._subscriptions.forEach((it) => it());
   }
 
   _onSortLinkClick(evt) {

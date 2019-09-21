@@ -12,9 +12,9 @@ export class Card extends AbstractComponent {
     return `<li class="trip-events__item">
       <div class="event">
          <div class="event__type">
-            <img class="event__type-icon" width="42" height="42" src=${this._type.src} alt=${this._type.title}>
+            <img class="event__type-icon" width="42" height="42" src=img/icons/${this._type}.png alt=${this._type}>
          </div>
-         <h3 class="event__title">${this._type.description}</h3>
+         <h3 class="event__title">${this._type === `sightseeing` || this._type ===`restaurant` || this._type ===`check-in` ?  `${this._type} in` : `${this._type} to` } </h3>
          <div class="event__schedule">
             <p class="event__time">
                <time class="event__start-time" datetime="${new Date(this._dueDate).toDateString()}">${new Date(this._dueDate).getHours()}:${new Date(this._dueDate).getMinutes()}</time>

@@ -30,57 +30,7 @@ const descriptionElementary = [
   `Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus`
 ];
 export const citiesElementary = [`Warsaw`, `Dnipro`, `Dresden`, `Berlin`];
-const typesElementary = [{
-  title: `bus`,
-  src: `img/icons/bus.png`,
-  description: `Bus to`
-},
-{
-  title: `check-in`,
-  src: `img/icons/check-in.png`,
-  description: `Checkin`
-},
-{
-  title: `drive`,
-  src: `img/icons/drive.png`,
-  description: `Drive to `
-},
-{
-  title: `flight`,
-  src: `img/icons/flight.png`,
-  description: `Flight to `
-},
-{
-  title: `restaurant`,
-  src: `img/icons/restaurant.png`,
-  description: `Restaurant in`
-},
-{
-  title: `ship`,
-  src: `img/icons/ship.png`,
-  description: `Ship to`
-},
-{
-  title: `sightseeing`,
-  src: `img/icons/sightseeing.png`,
-  description: `Sightseeing in`
-},
-{
-  title: `taxi`,
-  src: `img/icons/taxi.png`,
-  description: `Taxi to`
-},
-{
-  title: `train`,
-  src: `img/icons/train.png`,
-  description: `Train to`
-},
-{
-  title: `transport`,
-  src: `img/icons/transport.png`,
-  description: `Drive on`
-}
-];
+const typesElementary = [`bus`,`check-in`,`drive`,`flight`,`restaurant`, `ship`, `sightseeing`, `taxi`, `train`, `transport`];
 export const optionsAll = [{
   title: `Add luggage`,
   coast: 10,
@@ -144,3 +94,4 @@ export const filters = [{
   title: `Past`,
 }
 ];
+console.log(dataTrip);
