@@ -68,8 +68,8 @@ export const getDataTrip = () => ({
   city: citiesElementary[[Math.floor(Math.random() * citiesElementary.length)]],
   photos: getArrRandom(photosGenerated, photosOption.start, photosGenerated.length, photosOption.count),
   description: getArrRandom(descriptionElementary, descriptionOption.start, descriptionElementary.length, descriptionOption.count),
-  dueDateStart: Date.now() + 7 + Math.floor(Math.random() * 1) * 60 * 60 * 1000,
-  dueDateEnd: Date.now() + 7 + Math.floor(Math.random() * 2) * 60 * 60 * 1000,
+  dueDateStart: Date.now() + 1 + Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000,
+  dueDateEnd: Date.now() + 1 + Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000,
   cost: coasts[Math.floor(Math.random() * coasts.length)],
   isFavorite: Boolean(getRandomInteger(0, 1)),
   additionalOptions: getArrRandom(optionsAll, additionalOptionsOption.start, optionsAll.length, additionalOptionsOption.count),
@@ -96,3 +96,4 @@ export const filters = [{
   title: `Past`,
 }
 ];
+

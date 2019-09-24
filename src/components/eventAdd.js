@@ -1,9 +1,10 @@
 import {AbstractComponent} from './abstractClass.js';
+import moment from 'moment';
 export class CardAdd extends AbstractComponent {
   constructor({photos, type, dueDate, dueDateStart, dueDateEnd, cost, isFavorite, additionalOptions, description, cities, city, allOptions}) {
     super();
-    this._dueDateStart = dueDateStart;
-    this._dueDateEnd = dueDateEnd;
+    this._dueDateStart = new Date(dueDateStart);
+    this._dueDateEnd = new Date(dueDateEnd);
     this._photos = photos;
     this._type = type;
     this._dueDate = new Date(dueDate);
@@ -91,13 +92,13 @@ export class CardAdd extends AbstractComponent {
             </label>
             <input class="event__input  event__input--time event__input--time-start"
                id="event-start-time-1" type="text" name="event-start-time"
-               value="${new Date(this._dueDateStart)}">
-            —
+               value="${moment(this._dueDateStart).format(`L`)}">
+                           —
             <label class="visually-hidden" for="event-end-time-1">
             To
             </label>
             <input class="event__input  event__input--time event__input--time-end" id="event-end-time-1" type="text" name="event-end-time"
-            value="${new Date(this._dueDateEnd)}">
+            value=${moment(this._dueDateEnd).format(`MMM Do YY`)}>
          </div>
          <div class="event__field-group  event__field-group--price">
             <label class="event__label" for="event-price-1">

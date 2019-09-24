@@ -4,8 +4,8 @@ export class Card extends AbstractComponent {
   constructor({type, cost, dueDate, additionalOptions, dueDateStart, dueDateEnd, city}) {
     super();
     this._city = city;
-    this._dueDateStart = dueDateStart;
-    this._dueDateEnd = dueDateEnd;
+    this._dueDateStart = new Date(dueDateStart);
+    this._dueDateEnd = new Date(dueDateEnd);
     this._type = type;
     this._cost = cost;
     this._dueDate = dueDate;
