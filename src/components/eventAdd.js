@@ -1,7 +1,9 @@
 import {AbstractComponent} from './abstractClass.js';
 export class CardAdd extends AbstractComponent {
-  constructor({photos, type, dueDate, cost, isFavorite, additionalOptions, description, cities, allOptions}) {
+  constructor({photos, type, dueDate, dueDateStart, dueDateEnd, cost, isFavorite, additionalOptions, description, cities, city, allOptions}) {
     super();
+    this._dueDateStart = dueDateStart;
+    this._dueDateEnd = dueDateEnd;
     this._photos = photos;
     this._type = type;
     this._dueDate = new Date(dueDate);
@@ -10,6 +12,7 @@ export class CardAdd extends AbstractComponent {
     this._additionalOptions = additionalOptions;
     this._description = description;
     this._cities = cities;
+    this._city = city;
     this._allOptions = allOptions;
   }
   getTemplate() {
@@ -75,7 +78,7 @@ export class CardAdd extends AbstractComponent {
             <label class="event__label  event__type-output" for="event-destination-1">
             ${this._type} to
             </label>
-            <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value=${this._cities[0]} list="destination-list-1">
+            <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value=${this._city} list="destination-list-1">
             <datalist id="destination-list-1">
                ${this._cities.map((city) => `
                <option value=${city}></option>
@@ -86,15 +89,15 @@ export class CardAdd extends AbstractComponent {
             <label class="visually-hidden" for="event-start-time-1">
             From
             </label>
-            <input class="event__input  event__input--time"
+            <input class="event__input  event__input--time event__input--time-start"
                id="event-start-time-1" type="text" name="event-start-time"
-               value="${new Date(this._dueDate).getDate()}/${new Date(this._dueDate).getMonth()}/${new Date(this._dueDate).getFullYear()} ${new Date(this._dueDate).getHours()}:${new Date(this._dueDate).getMinutes()}">
+               value="${new Date(this._dueDateStart)}">
             —
             <label class="visually-hidden" for="event-end-time-1">
             To
             </label>
-            <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time"
-            value="${new Date(this._dueDate).getDate()}/${new Date(this._dueDate).getMonth()}/${new Date(this._dueDate).getFullYear()} ${new Date(this._dueDate).getHours()}:${new Date(this._dueDate).getMinutes()}">
+            <input class="event__input  event__input--time event__input--time-end" id="event-end-time-1" type="text" name="event-end-time"
+            value="${new Date(this._dueDateEnd)}">
          </div>
          <div class="event__field-group  event__field-group--price">
             <label class="event__label" for="event-price-1">
@@ -105,7 +108,7 @@ export class CardAdd extends AbstractComponent {
          </div>
          <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
          <button class="event__reset-btn" type="reset">Delete</button>
-         <input id="event-favorite-1" class="event__favorite-checkbox  visually-hidden" type="checkbox" name="event-favorite" ${this._isFavorite ? `checked=""` : `" "`}>
+         <input id="event-favorite-1" class="event__favorite-checkbox visually-hidden" value=${this._isFavorite ? true : false} type="checkbox" name="event-favorite" ${this._isFavorite ? `checked=""` : `" "`}>
          <label class="event__favorite-btn" for="event-favorite-1">
             <span class="visually-hidden">Add to favorite</span>
             <svg class="event__favorite-icon" width="28" height="28" viewBox="0 0 28 28">
@@ -120,9 +123,10 @@ export class CardAdd extends AbstractComponent {
          <section class="event__section  event__section--offers">
             <h3 class="event__section-title  event__section-title--offers">Offers</h3>
             <div class="event__available-offers">
+
                ${this._allOptions.map((option) => `
                <div class="event__offer-selector">
-                  <input class="event__offer-checkbox  visually-hidden"
+                  <input class="event__offer-checkbox  visually-hidden" value="${option.title}"
 
                    id="event-offer-luggage-${this._allOptions.indexOf(option)}"
 

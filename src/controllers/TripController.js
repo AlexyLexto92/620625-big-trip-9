@@ -4,7 +4,7 @@ import {NoEvents} from "../components/noEvents";
 import {Sort} from "../components/sort";
 import {TripDays} from "../components/trip-days";
 import {EventDay} from "../components/event-day";
-import { PointController } from "./PointController";
+import {PointController} from "./PointController";
 
 export class TripController extends AbstractComponent {
   constructor(cardsContainer, data, eventContainer, tripDaysContainer) {
@@ -19,7 +19,7 @@ export class TripController extends AbstractComponent {
     this._eventDay = new EventDay(data[0]);
 
     this._subscriptions = [];
-		this._onChangeView = this._onChangeView.bind(this);
+    this._onChangeView = this._onChangeView.bind(this);
     this._onDataChange = this._onDataChange.bind(this);
   }
   init() {
@@ -32,7 +32,6 @@ export class TripController extends AbstractComponent {
     this._data.forEach((date) => this._renderCard(date));
   }
   _renderBoard() {
-    debugger
     unrender(this._tripContainer.getElement());
     this._tripContainer.removeElement();
     unrender(this._eventDay.getElement());
@@ -46,7 +45,7 @@ export class TripController extends AbstractComponent {
   }
   _renderCard(data) {
     const cardsContainer = document.querySelector(`.trip-events__list`);
-    const pointController = new PointController (cardsContainer, data, this._onDataChange, this._onChangeView);
+    const pointController = new PointController(cardsContainer, data, this._onDataChange, this._onChangeView);
     this._subscriptions.push(pointController.setDefaultView.bind(pointController));
   }
   _onDataChange(newData, oldData) {
@@ -55,7 +54,7 @@ export class TripController extends AbstractComponent {
   }
 
   _onChangeView() {
-		this._subscriptions.forEach((it) => it());
+    this._subscriptions.forEach((it) => it());
   }
 
   _onSortLinkClick(evt) {

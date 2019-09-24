@@ -4,24 +4,24 @@ import {getArraySum} from './utils.js';
 
 const NUMBER_OF_REPETITIONS = 4;
 const NUMBER_OF_PHOTOS = 16;
-const additionalOptionsOption = {
+export const additionalOptionsOption = {
   start: 0,
   count: 2,
 };
-const photosOption = {
+export const photosOption = {
   start: 0,
   count: 4,
 };
-const descriptionOption = {
+export const descriptionOption = {
   start: 0,
   count: 3,
 };
-const coastOption = {
+export const coastOption = {
   min: 20,
   max: 600,
 };
 
-const descriptionElementary = [
+export const descriptionElementary = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget.`,
   `Fusce tristique felis at fermentum pharetra.`,
   `Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.`,
@@ -30,7 +30,7 @@ const descriptionElementary = [
   `Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus`
 ];
 export const citiesElementary = [`Warsaw`, `Dnipro`, `Dresden`, `Berlin`];
-const typesElementary = [`bus`,`check-in`,`drive`,`flight`,`restaurant`, `ship`, `sightseeing`, `taxi`, `train`, `transport`];
+const typesElementary = [`bus`, `check-in`, `drive`, `flight`, `restaurant`, `ship`, `sightseeing`, `taxi`, `train`, `transport`];
 export const optionsAll = [{
   title: `Add luggage`,
   coast: 10,
@@ -60,14 +60,16 @@ const coasts = new Array(NUMBER_OF_REPETITIONS)
 const getPhoto = () => (`
 http://picsum.photos/300/150?r=${Math.random()}
 `);
-const photosGenerated = new Array(NUMBER_OF_PHOTOS).fill(getPhoto()).map(getPhoto);
+export const photosGenerated = new Array(NUMBER_OF_PHOTOS).fill(getPhoto()).map(getPhoto);
 
 export const getDataTrip = () => ({
   type: typesElementary[[Math.floor(Math.random() * typesElementary.length)]],
   cities: citiesElementary,
+  city: citiesElementary[[Math.floor(Math.random() * citiesElementary.length)]],
   photos: getArrRandom(photosGenerated, photosOption.start, photosGenerated.length, photosOption.count),
   description: getArrRandom(descriptionElementary, descriptionOption.start, descriptionElementary.length, descriptionOption.count),
-  dueDate: Date.now() + 1 + Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000,
+  dueDateStart: Date.now() + 7 + Math.floor(Math.random() * 1) * 60 * 60 * 1000,
+  dueDateEnd: Date.now() + 7 + Math.floor(Math.random() * 2) * 60 * 60 * 1000,
   cost: coasts[Math.floor(Math.random() * coasts.length)],
   isFavorite: Boolean(getRandomInteger(0, 1)),
   additionalOptions: getArrRandom(optionsAll, additionalOptionsOption.start, optionsAll.length, additionalOptionsOption.count),
@@ -94,4 +96,3 @@ export const filters = [{
   title: `Past`,
 }
 ];
-console.log(dataTrip);
