@@ -39,7 +39,6 @@ export class TripController extends AbstractComponent {
     render(this._eventContainer, this._tripContainer.getElement(), Position.BEFOREEND);
     const tripContainerElem = document.querySelector(`.trip-days`);
     render(tripContainerElem, this._eventDay.getElement(), Position.BEFOREEND);
-
     this._data.forEach((date) => this._renderCard(date));
 
   }

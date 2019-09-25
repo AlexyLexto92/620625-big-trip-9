@@ -56,7 +56,6 @@ export class PointController extends AbstractComponent {
     cardEditElement.querySelector(`.event__save-btn`)
       .addEventListener(`click`, (evt) => {
         evt.preventDefault();
-
         const formData = new FormData(cardEditElement.querySelector(`.event--edit`));
         const entry = {
 
