@@ -16,7 +16,7 @@ export class TripController extends AbstractComponent {
     this._noEvents = new NoEvents();
     this._sort = new Sort();
     this._tripContainer = new TripDays();
-    this._eventDay = new EventDay(data[0]);
+    this._eventDay = new EventDay(data);
 
     this._subscriptions = [];
     this._onChangeView = this._onChangeView.bind(this);

@@ -27,14 +27,12 @@ export class PointController extends AbstractComponent {
       altInput: true,
       allowInput: true,
       defaultDate: this._data.dueDateStart,
-      altInput: true,
       altFormat: `d/m/Y H:i`,
     });
     flatpickr(cardEditElement.querySelector(`.event__input--time-end`), {
       altInput: true,
       allowInput: true,
       defaultDate: this._data.dueDateEnd,
-      altInput: true,
       altFormat: `d/m/Y H:i`,
     });
 
@@ -104,37 +102,13 @@ export class PointController extends AbstractComponent {
             }
           ]
           ),
-          allOptions: formData.getAll(`event-offer-luggage`).reduce((acc) => {
-            return acc;
-          },
-          [
-            {
-              title: `Add luggage`,
-              coast: 10,
-              isTrue: false,
-            },
-            {
-              title: `Switch to comfort class`,
-              coast: 150,
-              isTrue: false,
-            },
-            {
-              title: `Add meal`,
-              coast: 2,
-              isTrue: false,
-            },
-            {
-              title: `Choose seats`,
-              coast: 9,
-              isTrue: false,
-            }
-          ]
-          ),
+          get allOptions() {
+            return this.additionalOptions;
+          }
         };
 
         this._onDataChange(entry, this._data);
         this._container.replaceChild(cardElement, cardEditElement);
-        debugger
         document.removeEventListener(`keydown`, onEscKeyDown);
 
       });
